@@ -119,7 +119,7 @@ namespace RattusAPI.Tests
         public async Task UserCanNotJoinNonExistingRoom()
         {
             var context = GetAuthenticationContext("user");
-            var response = await SendAsync(context, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var response = await SendAsync(context, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -127,24 +127,24 @@ namespace RattusAPI.Tests
         public async Task UserCanNotJoinFullRoom()
         {
             var user1Context = GetAuthenticationContext("user1");
-            var user1Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var user1Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, user1Response.StatusCode);
 
             var user2Context = GetAuthenticationContext("user2");
-            var user2Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
-            Assert.Equal(HttpStatusCode.OK, user1Response.StatusCode);
+            var user2Response = await SendAsync(user2Context, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
+            Assert.Equal(HttpStatusCode.OK, user2Response.StatusCode);
 
             var user3Context = GetAuthenticationContext("user3");
-            var user3Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
-            Assert.Equal(HttpStatusCode.OK, user1Response.StatusCode);
+            var user3Response = await SendAsync(user3Context, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
+            Assert.Equal(HttpStatusCode.OK, user3Response.StatusCode);
 
             var user4Context = GetAuthenticationContext("user4");
-            var user4Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
-            Assert.Equal(HttpStatusCode.OK, user1Response.StatusCode);
+            var user4Response = await SendAsync(user4Context, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
+            Assert.Equal(HttpStatusCode.OK, user4Response.StatusCode);
 
             var user5Context = GetAuthenticationContext("user5");
-            var user5Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
-            Assert.Equal(HttpStatusCode.Forbidden, user1Response.StatusCode);
+            var user5Response = await SendAsync(user5Context, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
+            Assert.Equal(HttpStatusCode.Forbidden, user5Response.StatusCode);
         }
 
         [Fact]
@@ -172,11 +172,11 @@ namespace RattusAPI.Tests
         public async Task UsersCanNotCreateRoomsWithTheSameName()
         {
             var user1Context = GetAuthenticationContext("user1");
-            var user1Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var user1Response = await SendAsync(user1Context, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, user1Response.StatusCode);
 
             var user2Context = GetAuthenticationContext("user2");
-            var user2Response = await SendAsync(user2Context, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var user2Response = await SendAsync(user2Context, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Forbidden, user2Response.StatusCode);
         }
 
@@ -184,14 +184,14 @@ namespace RattusAPI.Tests
         public async Task UserCanNotCreateRoomWhenUserIsInRoom()
         {
             var ownerContext = GetAuthenticationContext("owner");
-            var ownerResponse = await SendAsync(ownerContext, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var ownerResponse = await SendAsync(ownerContext, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, ownerResponse.StatusCode);
 
             var userContext = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(userContext, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(userContext, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
-            var createResponse = await SendAsync(userContext, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(userContext, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Forbidden, createResponse.StatusCode);
         }
 
@@ -199,10 +199,10 @@ namespace RattusAPI.Tests
         public async Task UserCanNotJoinSameRoomIfUserIsAlreadyInRoom()
         {
             var context = GetAuthenticationContext("user");
-            var createResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
-            var joinResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Forbidden, joinResponse.StatusCode);
         }
 
@@ -210,14 +210,14 @@ namespace RattusAPI.Tests
         public async Task UserCanNotJoinDifferentRoomIfUserIsAlreadyInRoom()
         {
             var owner = GetAuthenticationContext("owner");
-            var ownerResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var ownerResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, ownerResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var createResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room2""}");
+            var createResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room2""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Forbidden, joinResponse.StatusCode);
         }
 
@@ -225,11 +225,11 @@ namespace RattusAPI.Tests
         public async Task UserCanLeaveRoomIfUserIsInRoom()
         {
             var owner = GetAuthenticationContext("owner");
-            var ownerResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var ownerResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, ownerResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var leaveResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/leave");
@@ -261,11 +261,11 @@ namespace RattusAPI.Tests
         public async Task UserCanNotLeaveRoomIfGameAlreadyStarted()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var startResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/start");
@@ -279,11 +279,11 @@ namespace RattusAPI.Tests
         public async Task OwnerCanStartGameIfRoomHasTwoOrMorePlayers()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var startResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/start");
@@ -307,11 +307,11 @@ namespace RattusAPI.Tests
         public async Task UserCanNotStartGameIfUserIsNotOwner()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var startResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/start");
@@ -330,7 +330,7 @@ namespace RattusAPI.Tests
         public async Task OwnerCanNotStartGameWithoutOtherPlayers()
         {
             var context = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var startResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/start");
@@ -341,29 +341,29 @@ namespace RattusAPI.Tests
         public async Task OwnerCanNotStartAlreadyStartedGame()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var startResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/start");
             Assert.Equal(HttpStatusCode.Accepted, startResponse.StatusCode);
 
             var secondStartResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/start");
-            Assert.Equal(HttpStatusCode.Forbidden, startResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, secondStartResponse.StatusCode);
         }
 
         [Fact]
         public async Task RoomGetsDeletedIfOwnerLeavesRoom()
         {
             var context = GetAuthenticationContext("user");
-            var createResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var leaveResponse = await SendAsync(context, HttpMethod.Post, "/api/lobby/leave");
-            Assert.Equal(HttpStatusCode.OK, createResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, leaveResponse.StatusCode);
 
             var getResponse = await SendAsync(context, HttpMethod.Get, "/api/lobby");
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
@@ -387,11 +387,11 @@ namespace RattusAPI.Tests
         public async Task RoomHasInGameStatusIfOwnerStartedGame()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var startResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/start");
@@ -410,7 +410,7 @@ namespace RattusAPI.Tests
             Assert.Equal("owner", ownerView.Owner);
             Assert.True(ownerView.IsOwner);
 
-            var userGetResponse = await SendAsync(owner, HttpMethod.Get, "/api/lobby");
+            var userGetResponse = await SendAsync(user, HttpMethod.Get, "/api/lobby");
             Assert.Equal(HttpStatusCode.OK, userGetResponse.StatusCode);
             var userContent = await userGetResponse.Content.ReadAsStringAsync();
             var userViews = JsonConvert.DeserializeObject<IEnumerable<RoomView>>(userContent);
@@ -428,11 +428,11 @@ namespace RattusAPI.Tests
         public async Task RoomHasInRoomStatusIfOwnerCreatedRoom()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var ownerGetResponse = await SendAsync(owner, HttpMethod.Get, "/api/lobby");
@@ -448,7 +448,7 @@ namespace RattusAPI.Tests
             Assert.Equal("owner", ownerView.Owner);
             Assert.True(ownerView.IsOwner);
 
-            var userGetResponse = await SendAsync(owner, HttpMethod.Get, "/api/lobby");
+            var userGetResponse = await SendAsync(user, HttpMethod.Get, "/api/lobby");
             Assert.Equal(HttpStatusCode.OK, userGetResponse.StatusCode);
             var userContent = await userGetResponse.Content.ReadAsStringAsync();
             var userViews = JsonConvert.DeserializeObject<IEnumerable<RoomView>>(userContent);
@@ -466,7 +466,7 @@ namespace RattusAPI.Tests
         public async Task RoomHasJoinableStatusIfUserIsNotInRoom()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
@@ -488,7 +488,7 @@ namespace RattusAPI.Tests
         public async Task UserCanSeeListOfPlayersOfJoinedOnlyRoom()
         {
             var owner = GetAuthenticationContext("owner");
-            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{{""name"":""room""}");
+            var createResponse = await SendAsync(owner, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
 
             var user = GetAuthenticationContext("user");
@@ -505,7 +505,7 @@ namespace RattusAPI.Tests
             Assert.Null(firstView.Owner);
             Assert.False(firstView.IsOwner);
 
-            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby", @"{{""name"":""room""}");
+            var joinResponse = await SendAsync(user, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
             Assert.Equal(HttpStatusCode.OK, joinResponse.StatusCode);
 
             var secondGetResponse = await SendAsync(user, HttpMethod.Get, "/api/lobby");
@@ -514,10 +514,10 @@ namespace RattusAPI.Tests
             var secondViews = JsonConvert.DeserializeObject<IEnumerable<RoomView>>(secondContent);
             Assert.Single(secondViews);
             var secondView = secondViews.Single();
-            Assert.Equal("Joinable", secondView.State);
+            Assert.Equal("InRoom", secondView.State);
             Assert.Equal("room", secondView.Name);
             Assert.Equal(new string[] { "owner", "user" }, secondView.Players);
-            Assert.Equal(1, secondView.PlayersCount);
+            Assert.Equal(2, secondView.PlayersCount);
             Assert.Equal("owner", secondView.Owner);
             Assert.False(secondView.IsOwner);
         }
