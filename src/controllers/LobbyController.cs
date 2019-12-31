@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using RattusAPI.Views;
 using RattusEngine;
 using RattusAPI.Models;
-using System.Net;
 using Microsoft.AspNetCore.Http;
+using RattusAPI.Authentication;
 
 namespace RattusAPI.Controllers
 {
@@ -19,6 +19,7 @@ namespace RattusAPI.Controllers
             this.application = application;
         }
 
+        [RequireRole(Roles.User)]
         [HttpGet]
         public IEnumerable<RoomView> GetRooms()
         {
@@ -42,6 +43,7 @@ namespace RattusAPI.Controllers
             });
         }
 
+        [RequireRole(Roles.User)]
         [HttpPost("create")]
         public IActionResult CreateRoom([FromBody]NameRequest data)
         {
@@ -58,6 +60,7 @@ namespace RattusAPI.Controllers
             }
         }
 
+        [RequireRole(Roles.User)]
         [HttpPost("join")]
         public IActionResult JoinRoom([FromBody]NameRequest data)
         {
@@ -75,6 +78,7 @@ namespace RattusAPI.Controllers
             }
         }
 
+        [RequireRole(Roles.User)]
         [HttpPost("leave")]
         public IActionResult LeaveRoom()
         {
@@ -91,6 +95,7 @@ namespace RattusAPI.Controllers
             }
         }
 
+        [RequireRole(Roles.User)]
         [HttpPost("start")]
         public IActionResult StartGame()
         {

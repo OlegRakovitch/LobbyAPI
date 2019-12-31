@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RattusAPI.Authentication;
 using RattusEngine;
 using RattusEngine.Models;
 
@@ -13,6 +14,7 @@ namespace RattusAPI.Controllers
             this.application = application;
         }
 
+        [RequireRole(Roles.Admin)]
         [HttpPost("reset")]
         public void ResetData()
         {

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RattusAPI.Authentication;
+using RattusAPI.Factories;
 using RattusEngine;
 
 namespace RattusAPI
@@ -18,10 +20,14 @@ namespace RattusAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options => {
+                options.Filters.Add<AuthenticationFilter>();
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddHttpContextAccessor();
-            services.AddSingleton<IStorage, MemoryStorage>();
-            services.AddSingleton<IContext, TrustyContextRepository>();
+            services.AddSingleton(typeof(IAuthentication), AuthenticationFactory.Find(Configuration["Authentication"]));
+
+            services.AddSingleton(typeof(IStorage), StorageFactory.Find(Configuration["Storage"]));
+            services.AddSingleton<IContext, ApplicationContext>();
             services.AddSingleton<IApplication, Application>();
         }
 
@@ -34,9 +40,8 @@ namespace RattusAPI
             else
             {
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
-
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

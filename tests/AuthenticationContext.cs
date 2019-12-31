@@ -2,15 +2,17 @@ namespace RattusAPI.Tests
 {
     public class AuthenticationContext
     {
-        public static AuthenticationContext Empty = new AuthenticationContext(string.Empty, string.Empty);
+        public static AuthenticationContext Empty = new AuthenticationContext(string.Empty);
         
-        public readonly string HeaderName;
-        public readonly string HeaderValue;
-
-        public AuthenticationContext(string headerName, string headerValue)
+        public readonly string Username;
+        private AuthenticationContext(string username)
         {
-            HeaderName = headerName;
-            HeaderValue = headerValue;
+            Username = username;
+        }
+
+        public static AuthenticationContext Create(string username)
+        {
+            return new AuthenticationContext(username);
         }
     }
 }
