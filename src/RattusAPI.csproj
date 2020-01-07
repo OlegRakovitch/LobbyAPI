@@ -7,6 +7,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RattusEngine\src\RattusEngine.csproj" />
+    <PackageReference Include="RattusEngine" Version="1.0.0" />
   </ItemGroup>
 </Project>

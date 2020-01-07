@@ -32,3 +32,6 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+
+# Nuget authentication
+src/nuget.config
