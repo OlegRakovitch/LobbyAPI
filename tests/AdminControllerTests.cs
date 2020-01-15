@@ -1,20 +1,19 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace RattusAPI.Tests
 {
-    public class AdminControllerTests : IClassFixture<WebApplicationFactory<RattusAPI.Startup>>
+    public class AdminControllerTests : IClassFixture<AppFactory<TestsStartup>>
     {
         readonly RequestHelper helper;
 
-        public AdminControllerTests(WebApplicationFactory<RattusAPI.Startup> factory)
+        public AdminControllerTests(AppFactory<TestsStartup> factory)
         {
-            helper = new RequestHelper(factory.CreateClient());
+            var client = factory.UseOriginalStartup().CreateClient();
+            helper = new RequestHelper(client);
         }
-
 
         [Fact]
         public async Task UserCanNotResetAnonymously()

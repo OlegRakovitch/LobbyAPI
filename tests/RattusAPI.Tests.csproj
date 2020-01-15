@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -16,5 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\RattusAPI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebApplicationFactoryContentRootAttribute Include="RattusAPI.Tests" AssemblyName="RattusAPI.Tests" ContentRootPath="../../../" ContentRootTest="RattusAPI.Tests.csproj" Priority="-1" />
   </ItemGroup>
 </Project>

@@ -2,22 +2,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using RattusAPI.Views;
 using Xunit;
 
 namespace RattusAPI.Tests
 {
-    public class LobbyControllerTests : IClassFixture<WebApplicationFactory<RattusAPI.Startup>>
+    public class LobbyControllerTests : IClassFixture<AppFactory<TestsStartup>>
     {
         readonly RequestHelper helper;
 
-        public LobbyControllerTests(WebApplicationFactory<RattusAPI.Startup> factory)
+        public LobbyControllerTests(AppFactory<TestsStartup> factory)
         {
-            helper = new RequestHelper(factory.CreateClient());
+            helper = new RequestHelper(factory.UseOriginalStartup().CreateClient());
             SetupApplication().GetAwaiter().GetResult();
         }
 
@@ -79,23 +77,7 @@ namespace RattusAPI.Tests
         }
 
         [Fact]
-        public async Task UserSeesRoomStateAfterJoiningRoom()
-        {
-            var ownerContext = helper.GetAuthenticationContext("owner");
-            await helper.SendAsync(ownerContext, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
-
-            var userContext = helper.GetAuthenticationContext("user");
-            await helper.SendAsync(userContext, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
-
-            var response = await helper.SendAsync(userContext, HttpMethod.Get, "/api/lobby");
-            var content = await response.Content.ReadAsStringAsync();
-            var view = JsonConvert.DeserializeObject<IEnumerable<RoomView>>(content).Single();
-            Assert.Equal("InRoom", view.State);
-           
-        }
-
-        [Fact]
-        public async Task UserSeesRoomNameAfterJoiningRoom()
+        public async Task UserCanSeeRoomNameAfterJoiningRoom()
         {
             var ownerContext = helper.GetAuthenticationContext("owner");
             await helper.SendAsync(ownerContext, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
@@ -110,7 +92,7 @@ namespace RattusAPI.Tests
         }
 
         [Fact]
-        public async Task UserSeesRoomNameBeforeJoiningRoom()
+        public async Task UserCanSeeRoomNameBeforeJoiningRoom()
         {
             var ownerContext = helper.GetAuthenticationContext("owner");
             await helper.SendAsync(ownerContext, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
@@ -120,38 +102,6 @@ namespace RattusAPI.Tests
             var content = await response.Content.ReadAsStringAsync();
             var view = JsonConvert.DeserializeObject<IEnumerable<RoomView>>(content).Single();
             Assert.Equal("room", view.Name);
-        }
-
-        [Fact]
-        public async Task UserSeesRoomPlayersListAfterJoiningRoom()
-        {
-            var ownerContext = helper.GetAuthenticationContext("owner");
-            await helper.SendAsync(ownerContext, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
-
-            var userContext = helper.GetAuthenticationContext("user");
-            await helper.SendAsync(userContext, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
-
-            var response = await helper.SendAsync(userContext, HttpMethod.Get, "/api/lobby");
-            var content = await response.Content.ReadAsStringAsync();
-            var view = JsonConvert.DeserializeObject<IEnumerable<RoomView>>(content).Single();
-            Assert.Equal(new string[] { "owner", "user" }, view.Players);
-            Assert.Equal(2, view.PlayersCount);
-        }
-
-        [Fact]
-        public async Task UserSeesRoomOwnerAfterJoiningRoom()
-        {
-            var ownerContext = helper.GetAuthenticationContext("owner");
-            await helper.SendAsync(ownerContext, HttpMethod.Post, "/api/lobby/create", @"{""name"":""room""}");
-
-            var userContext = helper.GetAuthenticationContext("user");
-            await helper.SendAsync(userContext, HttpMethod.Post, "/api/lobby/join", @"{""name"":""room""}");
-
-            var response = await helper.SendAsync(userContext, HttpMethod.Get, "/api/lobby");
-            var content = await response.Content.ReadAsStringAsync();
-            var view = JsonConvert.DeserializeObject<IEnumerable<RoomView>>(content).Single();
-            Assert.Equal("owner", view.Owner);
-            Assert.False(view.IsOwner);
         }
 
         [Fact]

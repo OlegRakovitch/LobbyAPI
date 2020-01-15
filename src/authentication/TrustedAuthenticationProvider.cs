@@ -6,8 +6,10 @@ using Microsoft.Extensions.Primitives;
 
 namespace RattusAPI.Authentication
 {
-    public class TrustedAuthentication : IAuthentication
+    public class TrustedAuthenticationProvider : IAuthenticationProvider
     {
+        public string RegisteredName => "Trusted";
+
         public ClaimsPrincipal AuthenticateUser(AuthorizationFilterContext context)
         {
             var header = context.HttpContext.Request.Headers["username"];

@@ -1,15 +1,18 @@
 using Microsoft.AspNetCore.Http;
+using RattusAPI.Storage;
 using RattusEngine;
 using RattusEngine.Models;
 
-namespace RattusAPI
+namespace RattusAPI.Context
 {
-    public class ApplicationContext : IContext
+    public class ContextProvider : IContextProvider
     {
+        public string RegisteredName => "Authenticated";
+
         public IStorage Storage { get; private set; }
         readonly IHttpContextAccessor contextAccessor;
 
-        public ApplicationContext(IHttpContextAccessor accessor, IStorage storage)
+        public ContextProvider(IHttpContextAccessor accessor, IStorageProvider storage)
         {
             contextAccessor = accessor;
             Storage = storage;

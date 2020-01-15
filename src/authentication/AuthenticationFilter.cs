@@ -4,8 +4,8 @@ namespace RattusAPI.Authentication
 {
     public class AuthenticationFilter : IAuthorizationFilter
     {
-        IAuthentication authentication;
-        public AuthenticationFilter(IAuthentication authentication)
+        IAuthenticationProvider authentication;
+        public AuthenticationFilter(IAuthenticationProvider authentication)
         {
             this.authentication = authentication;
         }

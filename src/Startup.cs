@@ -4,8 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RattusAPI.Authentication;
-using RattusAPI.Factories;
-using RattusEngine;
+using RattusAPI.Configuration;
+using RattusAPI.Context;
+using RattusAPI.GameStarter;
+using RattusAPI.Http;
+using RattusAPI.LobbyEngine;
+using RattusAPI.Provider;
+using RattusAPI.Storage;
 
 namespace RattusAPI
 {
@@ -16,22 +21,29 @@ namespace RattusAPI
             Configuration = configuration;
         }
 
-        public static IConfiguration Configuration { get; private set; }
+        public IConfiguration Configuration { get; private set; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => {
                 options.Filters.Add<AuthenticationFilter>();
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddHttpContextAccessor();
-            services.AddSingleton(typeof(IAuthentication), AuthenticationFactory.Find(Configuration["Authentication"]));
 
-            services.AddSingleton(typeof(IStorage), StorageFactory.Find(Configuration["Storage"]));
-            services.AddSingleton<IContext, ApplicationContext>();
-            services.AddSingleton<IApplication, Application>();
+            services.AddHttpContextAccessor();
+
+            var providers = Configuration.GetSection("Providers");
+
+            services
+                .AddProviderFactory<IAuthenticationProvider>(providers.Value("Authentication:Name"))
+                .AddProviderFactory<IStorageProvider>(providers.Value("Storage:Name"))
+                .AddProviderFactory<IHttpClientProvider>(providers.Value("HttpClient:Name"))
+                .AddProviderFactory<ISerializedHttpClientProvider>(providers.Value("SerializedHttpClient:Name"))
+                .AddProviderFactory<IContextProvider>(providers.Value("Context:Name"))
+                .AddProviderFactory<IGameStarterProvider>(providers.Value("GameStarter:Name"))
+                .AddProviderFactory<ILobbyEngineProvider>(providers.Value("LobbyEngine:Name"));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

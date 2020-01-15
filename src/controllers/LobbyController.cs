@@ -7,24 +7,26 @@ using RattusEngine;
 using RattusAPI.Models;
 using Microsoft.AspNetCore.Http;
 using RattusAPI.Authentication;
+using System.Threading.Tasks;
+using RattusAPI.LobbyEngine;
 
 namespace RattusAPI.Controllers
 {
     [Route("api/[controller]")]
     public class LobbyController : Controller
     {
-        readonly IApplication application;
-        public LobbyController(IApplication application)
+        readonly ILobbyEngine lobbyEngine;
+        public LobbyController(ILobbyEngineProvider engine)
         {
-            this.application = application;
+            lobbyEngine = engine;
         }
 
         [RequireRole(Roles.User)]
         [HttpGet]
-        public IEnumerable<RoomView> GetRooms()
+        public async Task<IEnumerable<RoomView>> GetRooms()
         {
-            var user = application.Context.GetUser();
-            return application.RoomController.GetRooms().Select(room =>
+            var user = lobbyEngine.Context.GetUser();
+            return (await lobbyEngine.RoomController.GetRooms()).Select(room =>
             {
                 var players = room.Players;
                 var roomView = new RoomView 
@@ -45,9 +47,9 @@ namespace RattusAPI.Controllers
 
         [RequireRole(Roles.User)]
         [HttpPost("create")]
-        public IActionResult CreateRoom([FromBody]NameRequest data)
+        public async Task<IActionResult> CreateRoom([FromBody]CreateRequest data)
         {
-            var result = application.RoomController.CreateRoom(data.Name);
+            var result = await lobbyEngine.RoomController.CreateRoom(data.Name, data.GameType);
             switch(result)
             {
                 case RattusEngine.Controllers.Statuses.RoomCreateStatus.OK:
@@ -62,9 +64,9 @@ namespace RattusAPI.Controllers
 
         [RequireRole(Roles.User)]
         [HttpPost("join")]
-        public IActionResult JoinRoom([FromBody]NameRequest data)
+        public async Task<IActionResult> JoinRoom([FromBody]JoinRequest data)
         {
-            var result = application.RoomController.JoinRoom(data.Name);
+            var result = await lobbyEngine.RoomController.JoinRoom(data.Name);
             switch(result)
             {
                 case RattusEngine.Controllers.Statuses.RoomJoinStatus.OK:
@@ -80,9 +82,9 @@ namespace RattusAPI.Controllers
 
         [RequireRole(Roles.User)]
         [HttpPost("leave")]
-        public IActionResult LeaveRoom()
+        public async Task<IActionResult> LeaveRoom()
         {
-            var result = application.RoomController.LeaveRoom();
+            var result = await lobbyEngine.RoomController.LeaveRoom();
             switch(result)
             {
                 case RattusEngine.Controllers.Statuses.RoomLeaveStatus.OK:
@@ -97,9 +99,9 @@ namespace RattusAPI.Controllers
 
         [RequireRole(Roles.User)]
         [HttpPost("start")]
-        public IActionResult StartGame()
+        public async Task<IActionResult> StartGame()
         {
-            var result = application.RoomController.StartGame();
+            var result = await lobbyEngine.RoomController.StartGame();
             switch(result)
             {
                 case RattusEngine.Controllers.Statuses.GameStartStatus.OK:

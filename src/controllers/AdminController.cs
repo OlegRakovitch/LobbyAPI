@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RattusAPI.Authentication;
+using RattusAPI.LobbyEngine;
 using RattusEngine;
 using RattusEngine.Models;
 
@@ -8,17 +9,17 @@ namespace RattusAPI.Controllers
     [Route("api/[controller]")]
     public class AdminController : Controller
     {
-        IApplication application;
-        public AdminController(IApplication application)
+        ILobbyEngine lobbyEngine;
+        public AdminController(ILobbyEngineProvider engine)
         {
-            this.application = application;
+            lobbyEngine = engine;
         }
 
         [RequireRole(Roles.Admin)]
         [HttpPost("reset")]
-        public void ResetData()
+        public async void ResetData()
         {
-            application.Context.Storage.DeleteAll<Room>();
+            await lobbyEngine.Context.Storage.DeleteAll<Room>();
         }
     }
 }

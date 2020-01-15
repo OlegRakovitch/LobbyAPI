@@ -5,8 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="RattusEngine" Version="1.0.0" />
+    <PackageReference Include="RattusEngine" Version="1.0.2" />
   </ItemGroup>
 </Project>
