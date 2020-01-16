@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using RattusAPI.Authentication;
 using System.Threading.Tasks;
 using RattusAPI.LobbyEngine;
+using RattusEngine.Controllers.Statuses;
 
 namespace RattusAPI.Controllers
 {
@@ -34,12 +35,14 @@ namespace RattusAPI.Controllers
                     Name = room.Name,
                     State = room.Status.ToString(),
                     PlayersCount = players.Count(),
-                    IsOwner = user.Equals(room.Owner)
+                    IsOwner = user.Equals(room.Owner),
+                    GameType = room.GameType
                 };
                 if (players.Contains(user))
                 {
                     roomView.Players = players.Select(player => player.Username).ToArray();
                     roomView.Owner = room.Owner.Username;
+                    roomView.GameId = room.GameId;
                 }
                 return roomView;
             });
@@ -49,7 +52,15 @@ namespace RattusAPI.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateRoom([FromBody]CreateRequest data)
         {
-            var result = await lobbyEngine.RoomController.CreateRoom(data.Name, data.GameType);
+            RoomCreateStatus? result;
+            try
+            {
+                result = await lobbyEngine.RoomController.CreateRoom(data.Name, data.GameType);
+            }
+            catch (ArgumentException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
             switch(result)
             {
                 case RattusEngine.Controllers.Statuses.RoomCreateStatus.OK:
@@ -66,7 +77,15 @@ namespace RattusAPI.Controllers
         [HttpPost("join")]
         public async Task<IActionResult> JoinRoom([FromBody]JoinRequest data)
         {
-            var result = await lobbyEngine.RoomController.JoinRoom(data.Name);
+            RoomJoinStatus? result;
+            try
+            {
+                result = await lobbyEngine.RoomController.JoinRoom(data.Name);
+            }
+            catch (ArgumentException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
             switch(result)
             {
                 case RattusEngine.Controllers.Statuses.RoomJoinStatus.OK:

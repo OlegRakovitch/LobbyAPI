@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace RattusAPI.Views
 {
     public class RoomView
@@ -8,5 +10,7 @@ namespace RattusAPI.Views
         public string[] Players { get; set; }
         public string Owner { get; set; }
         public bool IsOwner { get; set; }
+        public string GameType { get; set; }
+        public string GameId { get; set; }
     }
 }

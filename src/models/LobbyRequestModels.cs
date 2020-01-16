@@ -13,7 +13,7 @@ namespace RattusAPI.Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("gameType")]
+        [JsonProperty("type")]
         public string GameType { get; set; }
     }
 }
