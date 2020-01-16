@@ -1,7 +1,7 @@
-using RattusAPI.Provider;
-using RattusEngine;
+using LobbyAPI.Provider;
+using LobbyEngine;
 
-namespace RattusAPI.LobbyEngine
+namespace LobbyAPI.Lobby
 {
     public interface ILobbyEngineProvider : IProvider, ILobbyEngine
     {

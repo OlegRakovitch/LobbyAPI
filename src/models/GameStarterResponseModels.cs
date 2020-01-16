@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace RattusAPI.Models
+namespace LobbyAPI.Models
 {
     public class StartGameResponse
     {

@@ -1,7 +1,7 @@
-using RattusAPI.Provider;
-using RattusEngine;
+using LobbyAPI.Provider;
+using LobbyEngine;
 
-namespace RattusAPI.GameStarter
+namespace LobbyAPI.GameStarter
 {
     public interface IGameStarterProvider : IProvider, IGameStarter
     {

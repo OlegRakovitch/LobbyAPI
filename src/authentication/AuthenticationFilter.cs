@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace RattusAPI.Authentication
+namespace LobbyAPI.Authentication
 {
     public class AuthenticationFilter : IAuthorizationFilter
     {

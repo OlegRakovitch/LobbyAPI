@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RattusAPI.Authentication;
-using RattusAPI.Configuration;
-using RattusAPI.Context;
-using RattusAPI.GameStarter;
-using RattusAPI.Http;
-using RattusAPI.LobbyEngine;
-using RattusAPI.Provider;
-using RattusAPI.Storage;
+using LobbyAPI.Authentication;
+using LobbyAPI.Configuration;
+using LobbyAPI.Context;
+using LobbyAPI.GameStarter;
+using LobbyAPI.Http;
+using LobbyAPI.Lobby;
+using LobbyAPI.Provider;
+using LobbyAPI.Storage;
 
-namespace RattusAPI
+namespace LobbyAPI
 {
     public class Startup
     {

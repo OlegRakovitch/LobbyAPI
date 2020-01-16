@@ -2,16 +2,16 @@
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using RattusAPI.Views;
-using RattusEngine;
-using RattusAPI.Models;
+using LobbyAPI.Views;
+using LobbyEngine;
+using LobbyAPI.Models;
 using Microsoft.AspNetCore.Http;
-using RattusAPI.Authentication;
+using LobbyAPI.Authentication;
 using System.Threading.Tasks;
-using RattusAPI.LobbyEngine;
-using RattusEngine.Controllers.Statuses;
+using LobbyAPI.Lobby;
+using LobbyEngine.Controllers.Statuses;
 
-namespace RattusAPI.Controllers
+namespace LobbyAPI.Controllers
 {
     [Route("api/[controller]")]
     public class LobbyController : Controller
@@ -63,10 +63,10 @@ namespace RattusAPI.Controllers
             }
             switch(result)
             {
-                case RattusEngine.Controllers.Statuses.RoomCreateStatus.OK:
+                case LobbyEngine.Controllers.Statuses.RoomCreateStatus.OK:
                     return StatusCode(StatusCodes.Status201Created);
-                case RattusEngine.Controllers.Statuses.RoomCreateStatus.DuplicateName:
-                case RattusEngine.Controllers.Statuses.RoomCreateStatus.AlreadyInRoom:
+                case LobbyEngine.Controllers.Statuses.RoomCreateStatus.DuplicateName:
+                case LobbyEngine.Controllers.Statuses.RoomCreateStatus.AlreadyInRoom:
                     return StatusCode(StatusCodes.Status403Forbidden);
                 default:
                     return StatusCode(StatusCodes.Status500InternalServerError);
@@ -88,11 +88,11 @@ namespace RattusAPI.Controllers
             }
             switch(result)
             {
-                case RattusEngine.Controllers.Statuses.RoomJoinStatus.OK:
+                case LobbyEngine.Controllers.Statuses.RoomJoinStatus.OK:
                     return StatusCode(StatusCodes.Status200OK);
-                case RattusEngine.Controllers.Statuses.RoomJoinStatus.AlreadyInRoom:
-                case RattusEngine.Controllers.Statuses.RoomJoinStatus.RoomIsFull:
-                case RattusEngine.Controllers.Statuses.RoomJoinStatus.RoomNotFound:
+                case LobbyEngine.Controllers.Statuses.RoomJoinStatus.AlreadyInRoom:
+                case LobbyEngine.Controllers.Statuses.RoomJoinStatus.RoomIsFull:
+                case LobbyEngine.Controllers.Statuses.RoomJoinStatus.RoomNotFound:
                     return StatusCode(StatusCodes.Status403Forbidden);
                 default:
                     return StatusCode(StatusCodes.Status500InternalServerError);
@@ -106,10 +106,10 @@ namespace RattusAPI.Controllers
             var result = await lobbyEngine.RoomController.LeaveRoom();
             switch(result)
             {
-                case RattusEngine.Controllers.Statuses.RoomLeaveStatus.OK:
+                case LobbyEngine.Controllers.Statuses.RoomLeaveStatus.OK:
                     return StatusCode(StatusCodes.Status200OK);
-                case RattusEngine.Controllers.Statuses.RoomLeaveStatus.GameInProgress:
-                case RattusEngine.Controllers.Statuses.RoomLeaveStatus.NotInRoom:
+                case LobbyEngine.Controllers.Statuses.RoomLeaveStatus.GameInProgress:
+                case LobbyEngine.Controllers.Statuses.RoomLeaveStatus.NotInRoom:
                     return StatusCode(StatusCodes.Status403Forbidden);
                 default:
                     return StatusCode(StatusCodes.Status500InternalServerError);
@@ -123,12 +123,12 @@ namespace RattusAPI.Controllers
             var result = await lobbyEngine.RoomController.StartGame();
             switch(result)
             {
-                case RattusEngine.Controllers.Statuses.GameStartStatus.OK:
+                case LobbyEngine.Controllers.Statuses.GameStartStatus.OK:
                     return StatusCode(StatusCodes.Status202Accepted);
-                case RattusEngine.Controllers.Statuses.GameStartStatus.GameInProgress:
-                case RattusEngine.Controllers.Statuses.GameStartStatus.NotAnOwner:
-                case RattusEngine.Controllers.Statuses.GameStartStatus.NotEnoughPlayers:
-                case RattusEngine.Controllers.Statuses.GameStartStatus.NotInRoom:
+                case LobbyEngine.Controllers.Statuses.GameStartStatus.GameInProgress:
+                case LobbyEngine.Controllers.Statuses.GameStartStatus.NotAnOwner:
+                case LobbyEngine.Controllers.Statuses.GameStartStatus.NotEnoughPlayers:
+                case LobbyEngine.Controllers.Statuses.GameStartStatus.NotInRoom:
                     return StatusCode(StatusCodes.Status403Forbidden);
                 default:
                     return StatusCode(StatusCodes.Status500InternalServerError);

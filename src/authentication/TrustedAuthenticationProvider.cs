@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 
-namespace RattusAPI.Authentication
+namespace LobbyAPI.Authentication
 {
     public class TrustedAuthenticationProvider : IAuthenticationProvider
     {

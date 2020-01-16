@@ -18,6 +18,6 @@ jobs:
         nuget_config: ${{ secrets.nuget_config }}
       run: echo $nuget_config > src/nuget.config
     - name: Build with dotnet
-      run: dotnet build src/RattusAPI.csproj
+      run: dotnet build src/LobbyAPI.csproj
     - name: Run tests
-      run: dotnet test tests/RattusAPI.Tests.csproj
+      run: dotnet test tests/LobbyAPI.Tests.csproj

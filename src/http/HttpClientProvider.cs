@@ -1,6 +1,6 @@
 using System.Net.Http;
 
-namespace RattusAPI.Http
+namespace LobbyAPI.Http
 {
     public class HttpClientProvider : HttpClient, IHttpClientProvider
     {

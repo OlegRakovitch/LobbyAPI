@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace RattusAPI.Http
+namespace LobbyAPI.Http
 {
     public class JsonClientProvider : ISerializedHttpClientProvider
     {

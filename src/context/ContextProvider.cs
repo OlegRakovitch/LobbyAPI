@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Http;
-using RattusAPI.Storage;
-using RattusEngine;
-using RattusEngine.Models;
+using LobbyAPI.Storage;
+using LobbyEngine;
+using LobbyEngine.Models;
 
-namespace RattusAPI.Context
+namespace LobbyAPI.Context
 {
     public class ContextProvider : IContextProvider
     {

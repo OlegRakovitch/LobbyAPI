@@ -1,4 +1,4 @@
-namespace RattusAPI.Provider
+namespace LobbyAPI.Provider
 {
     public interface IProvider
     {

@@ -1,6 +1,6 @@
-using RattusEngine;
+using LobbyEngine;
 
-namespace RattusAPI.Storage
+namespace LobbyAPI.Storage
 {
     public class MemoryStorageProvider : MemoryStorage, IStorageProvider
     {

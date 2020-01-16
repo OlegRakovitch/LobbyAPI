@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RattusAPI.Models;
+using LobbyAPI.Models;
 
-namespace RattusAPI.Tests.Controllers
+namespace LobbyAPI.Tests.Controllers
 {
     [Route("api/gamestarter")]
     public class GameStarterController : Controller

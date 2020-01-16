@@ -1,8 +1,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
-using RattusAPI.Provider;
+using LobbyAPI.Provider;
 
-namespace RattusAPI.Http
+namespace LobbyAPI.Http
 {
     public interface ISerializedHttpClientProvider : IProvider
     {

@@ -1,9 +1,9 @@
-using RattusAPI.Context;
-using RattusAPI.GameStarter;
+using LobbyAPI.Context;
+using LobbyAPI.GameStarter;
 
-namespace RattusAPI.LobbyEngine
+namespace LobbyAPI.Lobby
 {
-    public class LobbyEngineProvider : RattusEngine.LobbyEngine, ILobbyEngineProvider
+    public class LobbyEngineProvider : LobbyEngine.Lobby, ILobbyEngineProvider
     {
         public string RegisteredName => "Contextual";
 

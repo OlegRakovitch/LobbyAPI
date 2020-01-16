@@ -4,10 +4,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using RattusAPI.Views;
+using LobbyAPI.Views;
 using Xunit;
 
-namespace RattusAPI.Tests
+namespace LobbyAPI.Tests
 {
     public class LobbyControllerTests : IClassFixture<AppFactory<TestsStartup>>
     {

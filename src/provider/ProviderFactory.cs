@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RattusAPI.Provider
+namespace LobbyAPI.Provider
 {
     public class ProviderFactory<TProvider>
     {

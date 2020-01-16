@@ -3,7 +3,7 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RattusAPI.Tests
+namespace LobbyAPI.Tests
 {
     public class TestsStartup : Startup
     {

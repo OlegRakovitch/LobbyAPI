@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace RattusAPI.Authentication
+namespace LobbyAPI.Authentication
 {
     public class RequireRoleAttribute: TypeFilterAttribute
     {

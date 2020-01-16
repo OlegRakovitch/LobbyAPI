@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace RattusAPI.Views
+namespace LobbyAPI.Views
 {
     public class RoomView
     {

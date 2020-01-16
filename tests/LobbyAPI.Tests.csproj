@@ -15,9 +15,9 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\RattusAPI.csproj" />
+    <ProjectReference Include="..\src\LobbyAPI.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <WebApplicationFactoryContentRootAttribute Include="RattusAPI.Tests" AssemblyName="RattusAPI.Tests" ContentRootPath="../../../" ContentRootTest="RattusAPI.Tests.csproj" Priority="-1" />
+    <WebApplicationFactoryContentRootAttribute Include="LobbyAPI.Tests" AssemblyName="LobbyAPI.Tests" ContentRootPath="../../../" ContentRootTest="LobbyAPI.Tests.csproj" Priority="-1" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
-using RattusAPI.Provider;
-using RattusEngine;
+using LobbyAPI.Provider;
+using LobbyEngine;
 
-namespace RattusAPI.Context
+namespace LobbyAPI.Context
 {
     public interface IContextProvider : IProvider, IContext
     {

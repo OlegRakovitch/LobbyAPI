@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace RattusAPI
+namespace LobbyAPI
 {
     public class LocalEntryPoint
     {

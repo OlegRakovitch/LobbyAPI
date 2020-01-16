@@ -1,4 +1,4 @@
-namespace RattusAPI.Tests
+namespace LobbyAPI.Tests
 {
     public class AuthenticationContext
     {

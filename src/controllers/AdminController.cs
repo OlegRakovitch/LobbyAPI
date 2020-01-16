@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using RattusAPI.Authentication;
-using RattusAPI.LobbyEngine;
-using RattusEngine;
-using RattusEngine.Models;
+using LobbyAPI.Authentication;
+using LobbyAPI.Lobby;
+using LobbyEngine;
+using LobbyEngine.Models;
 
-namespace RattusAPI.Controllers
+namespace LobbyAPI.Controllers
 {
     [Route("api/[controller]")]
     public class AdminController : Controller

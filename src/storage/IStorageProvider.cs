@@ -1,7 +1,7 @@
-using RattusAPI.Provider;
-using RattusEngine;
+using LobbyAPI.Provider;
+using LobbyEngine;
 
-namespace RattusAPI.Storage
+namespace LobbyAPI.Storage
 {
     public interface IStorageProvider : IProvider, IStorage
     {

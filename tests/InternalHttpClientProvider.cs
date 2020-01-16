@@ -1,8 +1,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
-using RattusAPI.Http;
+using LobbyAPI.Http;
 
-namespace RattusAPI.Tests
+namespace LobbyAPI.Tests
 {
     public class InternalHttpClientProvider : IHttpClientProvider
     {

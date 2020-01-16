@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using RattusAPI.GameStarter;
-using RattusAPI.Provider;
+using LobbyAPI.GameStarter;
+using LobbyAPI.Provider;
 
-namespace RattusAPI.Tests
+namespace LobbyAPI.Tests
 {
     public class AppFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint> where TEntryPoint : class
     {
@@ -35,7 +35,7 @@ namespace RattusAPI.Tests
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddSingleton(factory.CreateClient());
-                    services.AddMvc().AddApplicationPart(typeof(RattusAPI.Startup).Assembly);
+                    services.AddMvc().AddApplicationPart(typeof(LobbyAPI.Startup).Assembly);
                 });
             });
         }

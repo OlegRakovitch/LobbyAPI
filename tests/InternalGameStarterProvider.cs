@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RattusAPI.GameStarter;
+using LobbyAPI.GameStarter;
 
-namespace RattusAPI.Tests
+namespace LobbyAPI.Tests
 {
     public class InternalGameStarterProvider : IGameStarterProvider
     {

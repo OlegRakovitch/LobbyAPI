@@ -3,11 +3,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using RattusAPI.Configuration;
-using RattusAPI.Http;
-using RattusAPI.Models;
+using LobbyAPI.Configuration;
+using LobbyAPI.Http;
+using LobbyAPI.Models;
 
-namespace RattusAPI.GameStarter
+namespace LobbyAPI.GameStarter
 {
     public class RemoteCallGameStarter : IGameStarterProvider
     {

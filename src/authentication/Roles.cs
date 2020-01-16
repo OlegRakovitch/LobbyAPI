@@ -1,4 +1,4 @@
-namespace RattusAPI.Authentication
+namespace LobbyAPI.Authentication
 {
     public enum Roles
     {

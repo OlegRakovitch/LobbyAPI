@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RattusAPI.Tests
+namespace LobbyAPI.Tests
 {
     public class AdminControllerTests : IClassFixture<AppFactory<TestsStartup>>
     {

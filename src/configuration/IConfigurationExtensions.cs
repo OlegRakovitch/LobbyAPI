@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace RattusAPI.Configuration
+namespace LobbyAPI.Configuration
 {
     public static class IConfigurationExtensions
     {
