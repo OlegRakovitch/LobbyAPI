@@ -1,9 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using LobbyAPI.Configuration;
 using LobbyAPI.Http;
 using LobbyAPI.Models;
 
@@ -14,15 +13,22 @@ namespace LobbyAPI.GameStarter
         public string RegisteredName => "RemoteCall";
         readonly string gameServerUri;
         readonly ISerializedHttpClientProvider client;
-        public RemoteCallGameStarter(IConfiguration configuration, ISerializedHttpClientProvider client)
+        public RemoteCallGameStarter(IProviderConfiguration<IGameStarterProvider> configuration, ISerializedHttpClientProvider client)
         {
-            gameServerUri = configuration.Value("Providers:GameStarter:Uri");
-
+            if (configuration == null || client == null)
+            {
+                throw new ArgumentException();
+            }
+            gameServerUri = configuration["Uri"];
             this.client = client;
         }
 
         public async Task<string> StartGame(string gameType, IEnumerable<string> players)
         {
+            if (gameType == null || players == null)
+            {
+                throw new ArgumentException();
+            }
             var body = new StartGameRequest
             {
                 Players = players.ToArray(),

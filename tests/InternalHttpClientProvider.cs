@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using LobbyAPI.Http;
@@ -7,16 +8,20 @@ namespace LobbyAPI.Tests
     public class InternalHttpClientProvider : IHttpClientProvider
     {
         public string RegisteredName => "Internal";
-        HttpClient client;
+        Dictionary<string, string> registeredResponses = new Dictionary<string, string>();
 
-        public InternalHttpClientProvider(HttpClient client)
+        public void RegisterResponse(string requestUri, string response)
         {
-            this.client = client;
+            registeredResponses.Add(requestUri, response);
         }
 
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
-            return await client.SendAsync(request);
+            var response = registeredResponses[request.RequestUri.OriginalString];
+            var responseMessage = new HttpResponseMessage();
+            responseMessage.Content = new StringContent(response);
+            responseMessage.StatusCode = System.Net.HttpStatusCode.OK;
+            return Task.FromResult(responseMessage);
         }
     }
 }

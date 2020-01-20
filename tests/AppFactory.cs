@@ -1,14 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Reflection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using LobbyAPI.GameStarter;
-using LobbyAPI.Provider;
 
 namespace LobbyAPI.Tests
 {
@@ -34,8 +30,9 @@ namespace LobbyAPI.Tests
             {  
                 builder.ConfigureTestServices(services =>
                 {
-                    services.AddSingleton(factory.CreateClient());
+                    services.AddSingleton<System.Net.Http.HttpClient>(factory.CreateClient());
                     services.AddMvc().AddApplicationPart(typeof(LobbyAPI.Startup).Assembly);
+                    var httpClient = services.BuildServiceProvider().GetService<System.Net.Http.HttpClient>();
                 });
             });
         }

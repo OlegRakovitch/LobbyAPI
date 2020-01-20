@@ -16,12 +16,12 @@ namespace LobbyAPI
 {
     public class Startup
     {
+        readonly IConfiguration configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; private set; }
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
@@ -31,16 +31,14 @@ namespace LobbyAPI
 
             services.AddHttpContextAccessor();
 
-            var providers = Configuration.GetSection("Providers");
-
-            services
-                .AddProviderFactory<IAuthenticationProvider>(providers.Value("Authentication:Name"))
-                .AddProviderFactory<IStorageProvider>(providers.Value("Storage:Name"))
-                .AddProviderFactory<IHttpClientProvider>(providers.Value("HttpClient:Name"))
-                .AddProviderFactory<ISerializedHttpClientProvider>(providers.Value("SerializedHttpClient:Name"))
-                .AddProviderFactory<IContextProvider>(providers.Value("Context:Name"))
-                .AddProviderFactory<IGameStarterProvider>(providers.Value("GameStarter:Name"))
-                .AddProviderFactory<ILobbyEngineProvider>(providers.Value("LobbyEngine:Name"));
+            services.CreateFactoryBuilder(configuration)
+                .AddProviderFactory<IAuthenticationProvider>("Authentication")
+                .AddProviderFactory<IStorageProvider>("Storage")
+                .AddProviderFactory<IHttpClientProvider>("HttpClient")
+                .AddProviderFactory<ISerializedHttpClientProvider>("SerializedHttpClient")
+                .AddProviderFactory<IContextProvider>("Context")
+                .AddProviderFactory<IGameStarterProvider>("GameStarter")
+                .AddProviderFactory<ILobbyEngineProvider>("LobbyEngine");
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
